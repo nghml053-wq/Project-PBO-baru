@@ -78,14 +78,16 @@ namespace Project_PBO_baru.View.Auth
                             username,
                             nama_user,
                             no_hp,
-                            password
+                            password,
+                            role_user_id
                         )
                         VALUES
                         (
                             @username,
                             @nama,
                             @nohp,
-                            @password
+                            @password,
+                            @role
                         )";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                     {
@@ -93,7 +95,8 @@ namespace Project_PBO_baru.View.Auth
                             "@nama",
                             textBox1.Text.Trim());
 
-                        cmd.Parameters.AddWithValue("@nohp", Convert.ToInt32(textBox3.Text));
+                        // Store no_hp as string to avoid type mismatch if DB column is character varying
+                        cmd.Parameters.AddWithValue("@nohp", textBox3.Text.Trim());
 
                         cmd.Parameters.AddWithValue(
                             "@username",
@@ -102,6 +105,10 @@ namespace Project_PBO_baru.View.Auth
                         cmd.Parameters.AddWithValue(
                             "@password",
                             textBox5.Text.Trim());
+
+                        // Set default role untuk registrasi adalah customer (role_user_id = 2)
+                        // Pass as string in case DB column is character varying
+                        cmd.Parameters.AddWithValue("@role", "2");
 
                         cmd.ExecuteNonQuery();
 

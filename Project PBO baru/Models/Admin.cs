@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Project_PBO_baru.Models
 {
-    internal class Admin
+    internal class Admin : User
     {
+        // Admin-specific properties can be added here in the future
+        public Admin()
+        {
+        }
     }
 }

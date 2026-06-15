@@ -34,38 +34,40 @@
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.BTNDAFTAR = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(201, 231);
+            this.textBox1.Location = new System.Drawing.Point(94, 62);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(356, 22);
+            this.textBox1.Size = new System.Drawing.Size(287, 22);
             this.textBox1.TabIndex = 0;
             this.textBox1.Text = "Masukkan Nama Lengkap";
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(188, 384);
+            this.textBox2.Location = new System.Drawing.Point(94, 114);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(226, 22);
+            this.textBox2.Size = new System.Drawing.Size(287, 22);
             this.textBox2.TabIndex = 1;
             this.textBox2.Text = "Masukkan Email";
             this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(188, 523);
+            this.textBox3.Location = new System.Drawing.Point(94, 168);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(226, 22);
+            this.textBox3.Size = new System.Drawing.Size(287, 22);
             this.textBox3.TabIndex = 2;
             this.textBox3.Text = "Masukkan NO HP";
             this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(188, 666);
+            this.textBox4.Location = new System.Drawing.Point(94, 225);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(287, 22);
             this.textBox4.TabIndex = 3;
@@ -74,7 +76,7 @@
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(188, 813);
+            this.textBox5.Location = new System.Drawing.Point(94, 278);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(287, 22);
             this.textBox5.TabIndex = 4;
@@ -83,7 +85,7 @@
             // 
             // BTNDAFTAR
             // 
-            this.BTNDAFTAR.Location = new System.Drawing.Point(336, 920);
+            this.BTNDAFTAR.Location = new System.Drawing.Point(127, 344);
             this.BTNDAFTAR.Name = "BTNDAFTAR";
             this.BTNDAFTAR.Size = new System.Drawing.Size(198, 42);
             this.BTNDAFTAR.TabIndex = 5;
@@ -91,23 +93,34 @@
             this.BTNDAFTAR.UseVisualStyleBackColor = true;
             this.BTNDAFTAR.Click += new System.EventHandler(this.BTNDAFTAR_Click_1);
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.BackgroundImage = global::Project_PBO_baru.Properties.Resources.download__3_;
+            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.BTNDAFTAR);
+            this.panel1.Controls.Add(this.textBox2);
+            this.panel1.Controls.Add(this.textBox5);
+            this.panel1.Controls.Add(this.textBox3);
+            this.panel1.Controls.Add(this.textBox4);
+            this.panel1.Location = new System.Drawing.Point(690, 390);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(462, 453);
+            this.panel1.TabIndex = 6;
+            // 
             // RegisterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::Project_PBO_baru.Properties.Resources.REGISTRASI__1_;
-            this.ClientSize = new System.Drawing.Size(1438, 1006);
-            this.Controls.Add(this.BTNDAFTAR);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.BackgroundImage = global::Project_PBO_baru.Properties.Resources.The_New_York_EDITION_hotel_review___Urban_Pixxels;
+            this.ClientSize = new System.Drawing.Size(1751, 1019);
+            this.Controls.Add(this.panel1);
             this.Name = "RegisterForm";
-            this.Text = "LoginForm";
+            this.Text = "RegisterForm";
             this.Load += new System.EventHandler(this.RegisterForm_Load);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -119,5 +132,6 @@
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.Button BTNDAFTAR;
+        private System.Windows.Forms.Panel panel1;
     }
 }

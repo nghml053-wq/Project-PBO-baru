@@ -63,6 +63,16 @@ namespace Project_PBO_baru.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap download__3_ {
+            get {
+                object obj = ResourceManager.GetObject("download (3)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap REGISTRASI {
             get {
                 object obj = ResourceManager.GetObject("REGISTRASI", resourceCulture);
@@ -76,6 +86,16 @@ namespace Project_PBO_baru.Properties {
         internal static System.Drawing.Bitmap REGISTRASI__1_ {
             get {
                 object obj = ResourceManager.GetObject("REGISTRASI (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap The_New_York_EDITION_hotel_review___Urban_Pixxels {
+            get {
+                object obj = ResourceManager.GetObject("The New York EDITION hotel review _ Urban Pixxels", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

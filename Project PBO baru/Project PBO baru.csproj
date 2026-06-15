@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -66,6 +66,7 @@
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -79,10 +80,15 @@
   <ItemGroup>
     <Compile Include="Controllers\ReservasiController.cs" />
     <Compile Include="Controllers\LaporanController.cs" />
+    <Compile Include="Controllers\ReservationController.cs" />
     <Compile Include="Controllers\TransaksiController.cs" />
     <Compile Include="Controllers\KamarController.cs" />
+    <Compile Include="Database\SchemaMigrator.cs" />
     <Compile Include="Models\Kamar.cs" />
+    <Compile Include="Models\PaymentMethod.cs" />
     <Compile Include="Models\Reservasi.cs" />
+    <Compile Include="Models\Reservation.cs" />
+    <Compile Include="Models\RoomStore.cs" />
     <Compile Include="Models\Transaksi.cs" />
     <Compile Include="Models\UserSession.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -93,6 +99,19 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\PaymentService.cs" />
+    <Compile Include="Services\ReportingService.cs" />
+    <Compile Include="Services\ReservationService.cs" />
+    <Compile Include="Services\RoomService.cs" />
+    <Compile Include="Services\ServiceResult.cs" />
+    <Compile Include="Services\ServiceResult2.cs" />
+    <Compile Include="Services\UserService.cs" />
+    <Compile Include="View\Admin\CustomerDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Admin\CustomerDetailForm.Designer.cs">
+      <DependentUpon>CustomerDetailForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\Admin\LaporanForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,6 +142,10 @@
     <Compile Include="View\Admin\DashboardAdmincs.Designer.cs">
       <DependentUpon>DashboardAdmincs.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\Admin\ReservationDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Admin\TransaksiAdmin.cs" />
     <Compile Include="View\Auth\RegisterForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,17 +158,17 @@
     <Compile Include="View\Auth\LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\Customer\ProfilForm.cs">
+    <Compile Include="View\Customer\PembayaranCustomer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\Customer\ProfilForm.Designer.cs">
-      <DependentUpon>ProfilForm.cs</DependentUpon>
+    <Compile Include="View\Customer\PembayaranCustomer.Designer.cs">
+      <DependentUpon>PembayaranCustomer.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\Customer\RiwayatReservasiForm.cs">
+    <Compile Include="View\Customer\ReservationHistoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\Customer\RiwayatReservasiForm.Designer.cs">
-      <DependentUpon>RiwayatReservasiForm.cs</DependentUpon>
+    <Compile Include="View\Customer\ReservationHistoryForm.Designer.cs">
+      <DependentUpon>ReservationHistoryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="View\Customer\ReservasiForm.cs">
       <SubType>Form</SubType>
@@ -153,10 +176,10 @@
     <Compile Include="View\Customer\ReservasiForm.Designer.cs">
       <DependentUpon>ReservasiForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\Customer\DaftarKamarForm.cs">
+    <Compile Include="View\Admin\DaftarKamarForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\Customer\DaftarKamarForm.Designer.cs">
+    <Compile Include="View\Admin\DaftarKamarForm.Designer.cs">
       <DependentUpon>DaftarKamarForm.cs</DependentUpon>
     </Compile>
     <Compile Include="View\Customer\DashboardCustomer.cs">
@@ -178,6 +201,15 @@
     <EmbeddedResource Include="View\Admin\DashboardAdmincs.resx">
       <DependentUpon>DashboardAdmincs.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\Admin\KelolaCustomer.resx">
+      <DependentUpon>KelolaCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Admin\KelolaKamarForm.resx">
+      <DependentUpon>KelolaKamarForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Admin\KelolaReservasiForm.resx">
+      <DependentUpon>KelolaReservasiForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\Admin\LaporanForm.resx">
       <DependentUpon>LaporanForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -187,8 +219,20 @@
     <EmbeddedResource Include="View\Auth\RegisterForm.resx">
       <DependentUpon>RegisterForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\Customer\ProfilForm.resx">
-      <DependentUpon>ProfilForm.cs</DependentUpon>
+    <EmbeddedResource Include="View\Admin\DaftarKamarForm.resx">
+      <DependentUpon>DaftarKamarForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Customer\DashboardCustomer.resx">
+      <DependentUpon>DashboardCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Customer\PembayaranCustomer.resx">
+      <DependentUpon>PembayaranCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Customer\ReservasiForm.resx">
+      <DependentUpon>ReservasiForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Customer\ReservationHistoryForm.resx">
+      <DependentUpon>ReservationHistoryForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -209,6 +253,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\REGISTRASI %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\The New York EDITION hotel review _ Urban Pixxels.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\download %283%29.jpeg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

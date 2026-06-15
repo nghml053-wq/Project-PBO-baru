@@ -1,6 +1,8 @@
 ﻿using Npgsql;
 using Project_PBO_baru.Database;
 using Project_PBO_baru.View.Customer;
+using Project_PBO_baru.View.Admin;
+using Project_PBO_baru.Models;
 using System;
 using System.Data;
 using System.Drawing;
@@ -19,12 +21,12 @@ namespace Project_PBO_baru.View.Auth
             InitializeComponent();
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void TextBox1_TextChanged(object sender, EventArgs e)
         {
             // Tempat event handler username jika diperlukan
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
+        private void TextBox2_TextChanged(object sender, EventArgs e)
         {
             // Tempat event handler password jika diperlukan
         }
@@ -32,15 +34,15 @@ namespace Project_PBO_baru.View.Auth
         private void LoginForm_Load(object sender, EventArgs e)
         {
             // Mengatur default role agar tidak kosong saat login pertama kali klik
-            radioButton1.Checked = true; // Default pilih Admin
+            RadioBtnAdm.Checked = true; // Default pilih Admin
         }
 
-        private void BTNOWNER_CheckedChanged(object sender, EventArgs e)
+        private void RadopBtnAdm(object sender, EventArgs e)
         {
             // Event handler Radio Button Owner/Customer
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        private void RadioBtnCust(object sender, EventArgs e)
         {
             // Event handler Radio Button Admin
         }
@@ -67,31 +69,95 @@ namespace Project_PBO_baru.View.Auth
                     string query = @"
                         SELECT
                             id_user,
-                            username
+                            username,
+                            nama_user,
+                            no_hp,
+                            role_user_id
                         FROM ""user""
                         WHERE username = @username
                           AND password = @password";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@username", textBox1.Text.Trim());
-                        cmd.Parameters.AddWithValue("@password", textBox2.Text.Trim());
+                        cmd.Parameters.AddWithValue("@username", TextBox1.Text.Trim());
+                        cmd.Parameters.AddWithValue("@password", TextBox2.Text.Trim());
                         //cmd.Parameters.AddWithValue("@role", roleDipilih);
 
                         using (NpgsqlDataReader reader = cmd.ExecuteReader())
                         {
                             if (reader.Read())
                             {
-                                MessageBox.Show(
-                                    "Login Berhasil!",
-                                    "Informasi",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information);
+                                int idUser = reader.GetInt32(reader.GetOrdinal("id_user"));
+                                string username = reader.GetString(reader.GetOrdinal("username"));
+                                string nama = reader.IsDBNull(reader.GetOrdinal("nama_user")) ? "" : reader.GetString(reader.GetOrdinal("nama_user"));
+                                // Read columns as string first to avoid casting errors if DB uses varchar
+                                int noHp = 0;
+                                int role = 2; // default to customer
 
-                                this.Hide();
+                                if (!reader.IsDBNull(reader.GetOrdinal("no_hp")))
+                                {
+                                    var noHpObj = reader.GetValue(reader.GetOrdinal("no_hp"));
+                                    int.TryParse(noHpObj?.ToString(), out noHp);
+                                }
 
-                                DashboardCustomer dashboard = new DashboardCustomer();
-                                dashboard.Show();
+                                if (!reader.IsDBNull(reader.GetOrdinal("role_user_id")))
+                                {
+                                    var roleObj = reader.GetValue(reader.GetOrdinal("role_user_id"));
+                                    int.TryParse(roleObj?.ToString(), out role);
+                                }
+
+                                // Periksa role yang dipilih lewat RadioButton
+                                int selectedRole = RadioBtnAdm.Checked ? 1 : 2;
+
+                                if (role != selectedRole)
+                                {
+                                    MessageBox.Show(
+                                        "Role yang dipilih tidak sesuai dengan akun. Silakan pilih role yang benar.",
+                                        "Peringatan",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Warning);
+                                    return;
+                                }
+
+                                // Buat objek user sesuai role dan simpan di session
+                                if (role == 1)
+                                {
+                                    Project_PBO_baru.Models.Admin admin = new Project_PBO_baru.Models.Admin
+                                    {
+                                        IdUser = idUser,
+                                        Username = username,
+                                        NamaUser = nama,
+                                        NoHp = noHp,
+                                        RoleUserId = role
+                                    };
+
+                                    UserSession.CurrentUser = admin;
+
+                                    MessageBox.Show("Login Berhasil!", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                    this.Hide();
+                                    DashboardAdmincs dashboard = new DashboardAdmincs();
+                                    dashboard.Show();
+                                }
+                                else
+                                {
+                                    Project_PBO_baru.Models.Customer customer = new Project_PBO_baru.Models.Customer
+                                    {
+                                        IdUser = idUser,
+                                        Username = username,
+                                        NamaUser = nama,
+                                        NoHp = noHp,
+                                        RoleUserId = role
+                                    };
+
+                                    UserSession.CurrentUser = customer;
+
+                                    MessageBox.Show("Login Berhasil!", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                    this.Hide();
+                                    DashboardCustomer dashboard = new DashboardCustomer();
+                                    dashboard.Show();
+                                }
 
                                 // Atau jika ingin form login tertutup:
                                 // dashboard.Show();
@@ -122,6 +188,11 @@ namespace Project_PBO_baru.View.Auth
             registerForm.Show();
 
             this.Hide();
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+         
         }
     }
 }
